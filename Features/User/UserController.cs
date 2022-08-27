@@ -1,3 +1,4 @@
+using AutoMapper;
 using BackendTest.Features.User.Resources;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -12,13 +13,17 @@ public class UserController : ControllerBase
     private IValidator<SignUpResource> SignUpResourceValidator { get; set; }
     private IValidator<LoginResource> LoginResourceValidator { get; set; }
 
+    private IMapper Mapper { get; set; }
+
     public UserController(
         IValidator<SignUpResource> signUpResourceValidator, 
-        IValidator<LoginResource> loginResourceValidator
+        IValidator<LoginResource> loginResourceValidator,
+        IMapper mapper
     )
     {
         SignUpResourceValidator = signUpResourceValidator;
         LoginResourceValidator = loginResourceValidator;
+        Mapper = mapper;
     }
     
     [AllowAnonymous]
@@ -31,6 +36,8 @@ public class UserController : ControllerBase
         {
             return BadRequest(validationResult.Errors);
         }
+
+        var userToSave = Mapper.Map<User>(signUpResource);
 
         return Ok();
     }

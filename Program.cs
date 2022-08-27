@@ -11,10 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/// Validators
+// Validators
 builder.Services.AddScoped<IValidator<SignUpResource>, SignUpResourceValidator>();
 builder.Services.AddScoped<IValidator<LoginResource>, LoginResourceValidator>();
 
+
+// Automapper
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
