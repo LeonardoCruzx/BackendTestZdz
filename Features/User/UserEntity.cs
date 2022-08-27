@@ -1,3 +1,5 @@
+using BackendTest.Features.Cart;
+
 namespace BackendTest.Features.User;
 
 public class UserEntity
@@ -7,4 +9,6 @@ public class UserEntity
     public string Password { get; set; }
     public string Name { get; set; }
 
+    public int CartId { get; set; }
+    public CartEntity Cart { get; set; }
 }

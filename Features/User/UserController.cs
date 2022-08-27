@@ -31,7 +31,7 @@ public class UserController : ControllerBase
     }
     
     [AllowAnonymous]
-    [HttpPost("signup")]
+    [HttpPost("SignUp")]
     public async Task<IActionResult> SignUp(SignUpResource signUpResource)
     {
         var validationResult = SignUpResourceValidator.Validate(signUpResource);
@@ -49,7 +49,7 @@ public class UserController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("login")]
+    [HttpPost("Login")]
     public IActionResult Login(LoginResource loginResource)
     {
         var validationResult = LoginResourceValidator.Validate(loginResource);

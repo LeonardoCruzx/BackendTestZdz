@@ -7,7 +7,7 @@ public class LoginResourceValidator : AbstractValidator<LoginResource>
 {
     public LoginResourceValidator()
     {
-        RuleFor(x => x.Username).NotEmpty().WithMessage($"{nameof(LoginResource.Username)} cannot be empty");
+        RuleFor(x => x.Email).NotEmpty().WithMessage($"{nameof(LoginResource.Email)} cannot be empty");
         RuleFor(x => x.Password).NotEmpty().WithMessage($"{nameof(LoginResource.Password)} cannot be empty");
     }
 }

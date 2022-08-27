@@ -12,8 +12,7 @@ public interface IUserService
 {
     Task<TokenResource> SignUp(UserEntity user);
     Task<TokenResource> Authenticate(LoginResource model);
-    IEnumerable<UserEntity> GetAll();
-    UserEntity GetById(int id);
+    Task<UserEntity> GetById(int id);
 }
 
 public class UserService : IUserService
@@ -31,6 +30,8 @@ public class UserService : IUserService
     {
         user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
+        //await UnitOfWork
+
         await UnitOfWork.UserRepository.AddAsync(user);
         await UnitOfWork.CommitAsync();
 
@@ -47,15 +48,8 @@ public class UserService : IUserService
         return null;
     }
 
-    public IEnumerable<UserEntity> GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
-    public UserEntity GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<UserEntity> GetById(int id)
+        => await UnitOfWork.UserRepository.GetByIdAsync(id);
 
     private string GenerateJwtToken(UserEntity user)
         {

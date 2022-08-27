@@ -27,7 +27,7 @@ public class JwtMiddleware
         await _next(context);
     }
 
-    private void AttachUserToContext(HttpContext context, IUserService userService, string token)
+    private async void AttachUserToContext(HttpContext context, IUserService userService, string token)
     {
         try
         {
@@ -48,7 +48,7 @@ public class JwtMiddleware
             var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
             // attach user to context on successful jwt validation
-            context.Items["User"] = userService.GetById(userId);
+            context.Items["User"] = await userService.GetById(userId);
         }
         catch
         {
