@@ -37,7 +37,7 @@ public class UserController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var userToSave = Mapper.Map<User>(signUpResource);
+        var userToSave = Mapper.Map<UserEntity>(signUpResource);
 
         return Ok();
     }

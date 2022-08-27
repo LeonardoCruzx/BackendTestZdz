@@ -7,6 +7,6 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<SignUpResource, User>();
+        CreateMap<SignUpResource, UserEntity>();
     }
 }
