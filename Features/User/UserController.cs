@@ -15,20 +15,24 @@ public class UserController : ControllerBase
 
     private IMapper Mapper { get; set; }
 
+    private IUserService UserService { get; set; }
+
     public UserController(
         IValidator<SignUpResource> signUpResourceValidator, 
         IValidator<LoginResource> loginResourceValidator,
-        IMapper mapper
+        IMapper mapper,
+        IUserService userService
     )
     {
         SignUpResourceValidator = signUpResourceValidator;
         LoginResourceValidator = loginResourceValidator;
         Mapper = mapper;
+        UserService = userService;
     }
     
     [AllowAnonymous]
     [HttpPost("signup")]
-    public IActionResult SignUp(SignUpResource signUpResource)
+    public async Task<IActionResult> SignUp(SignUpResource signUpResource)
     {
         var validationResult = SignUpResourceValidator.Validate(signUpResource);
 
@@ -39,7 +43,9 @@ public class UserController : ControllerBase
 
         var userToSave = Mapper.Map<UserEntity>(signUpResource);
 
-        return Ok();
+        var token = await UserService.SignUp(userToSave);
+
+        return Ok(token);
     }
 
     [AllowAnonymous]
@@ -53,6 +59,11 @@ public class UserController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        return Ok();
+        var token = UserService.Authenticate(loginResource);
+
+        if (token is null)
+            return BadRequest(new { message = "Username or password is incorrect" });
+
+        return Ok(token);
     }
 }

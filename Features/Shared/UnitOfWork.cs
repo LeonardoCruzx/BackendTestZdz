@@ -4,7 +4,8 @@ namespace BackendTest.Features.Shared;
 
 public interface IUnitOfWork : IDisposable
 {
-    
+    IUserRepository UserRepository { get; }
+    Task CommitAsync();
 }
 public class UnitOfWork : IUnitOfWork
 {
@@ -17,7 +18,7 @@ public class UnitOfWork : IUnitOfWork
         Context = context;
     }
 
-    public UserRepository UserRepository => userRepository ?? (userRepository = new UserRepository(Context));
+    public IUserRepository UserRepository => userRepository ?? (userRepository = new UserRepository(Context));
 
     public async Task CommitAsync()
         => await Context.SaveChangesAsync();

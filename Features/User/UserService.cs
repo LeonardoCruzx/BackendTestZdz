@@ -1,27 +1,50 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using BackendTest.Features.Shared;
 using BackendTest.Features.User.Resources;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BackendTest.Features.User;
 
 public interface IUserService
 {
-    TokenResource Authenticate(LoginResource model);
+    Task<TokenResource> SignUp(UserEntity user);
+    Task<TokenResource> Authenticate(LoginResource model);
     IEnumerable<UserEntity> GetAll();
     UserEntity GetById(int id);
 }
 
 public class UserService : IUserService
 {
+    private AppSettings AppSettings { get; set; }
     private IUnitOfWork UnitOfWork { get; set; }
 
-    public UserService(IUnitOfWork unitOfWork)
+    public UserService(IUnitOfWork unitOfWork, IOptions<AppSettings> appSettings)
     {
         UnitOfWork = unitOfWork;
+        AppSettings = appSettings.Value;
     }
-    
-    public TokenResource Authenticate(LoginResource model)
+
+    public async Task<TokenResource> SignUp(UserEntity user)
     {
-        throw new NotImplementedException();
+        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
+        await UnitOfWork.UserRepository.AddAsync(user);
+        await UnitOfWork.CommitAsync();
+
+        return new TokenResource(GenerateJwtToken(user));
+    }
+
+    public async Task<TokenResource> Authenticate(LoginResource loginResource)
+    {
+        var user = await UnitOfWork.UserRepository.GetByEmailAsync(loginResource.Email);
+
+        if (user is not null && BCrypt.Net.BCrypt.Verify(loginResource.Password, user.Password))
+            return new TokenResource(GenerateJwtToken(user));
+
+        return null;
     }
 
     public IEnumerable<UserEntity> GetAll()
@@ -33,4 +56,19 @@ public class UserService : IUserService
     {
         throw new NotImplementedException();
     }
+
+    private string GenerateJwtToken(UserEntity user)
+        {
+            // generate token that is valid for 7 days
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(AppSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
 }
