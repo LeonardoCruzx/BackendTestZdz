@@ -1,5 +1,4 @@
-using BackendTest.Features.Item;
-using BackendTest.Features.User;
+using BackendTest.Features.User.Entities;
 
 namespace BackendTest.Features.Cart;
 

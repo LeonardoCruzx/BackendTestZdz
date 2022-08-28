@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using BackendTest.Features.User;
+using BackendTest.Features.User.Entities;
 
 namespace BackendTest.Features.Shared;
 

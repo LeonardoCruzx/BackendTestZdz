@@ -1,4 +1,5 @@
 using AutoMapper;
+using BackendTest.Features.User.Entities;
 using BackendTest.Features.User.Resources;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;

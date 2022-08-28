@@ -9,6 +9,7 @@ public interface ICartRepository : IRepository<CartEntity>
     Task<IEnumerable<ItemCartEntity>> GetItemsByIdAsync(int cartId);
     Task<CartEntity> GetCartByUserIdAsync(int userId);
     Task AddItemCartAsync(ItemCartEntity itemCart);
+    void RemoveItemCart(int itemCartId);
 }
 
 public class CartRepository : Repository<CartEntity>, ICartRepository
@@ -31,5 +32,10 @@ public class CartRepository : Repository<CartEntity>, ICartRepository
     public async Task AddItemCartAsync(ItemCartEntity itemCart)
     {
         await Context.Set<ItemCartEntity>().AddAsync(itemCart);
+    }
+
+    public void RemoveItemCart(int itemCartId)
+    {
+        Context.Set<ItemCartEntity>().Remove(new ItemCartEntity { Id = itemCartId });
     }
 }

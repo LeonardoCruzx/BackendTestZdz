@@ -1,6 +1,7 @@
 using BackendTest.Features.Cart;
 using BackendTest.Features.Item;
 using BackendTest.Features.User;
+using BackendTest.Features.User.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendTest.Features.Shared;

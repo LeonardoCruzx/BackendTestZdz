@@ -1,4 +1,5 @@
 using BackendTest.Features.Shared;
+using BackendTest.Features.User.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendTest.Features.User;

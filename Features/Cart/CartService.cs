@@ -8,6 +8,7 @@ public interface ICartService
 {
     Task<IEnumerable<ItemCartEntity>> GetItemsByIdAsync(int cartId);
     Task AddItemCartAsync(AddItemResource addItemResource);
+    void RemoveItemCartAsync(int itemCartId);
 }
 
 public class CartService : ICartService
@@ -38,5 +39,8 @@ public class CartService : ICartService
 
         await UnitOfWork.CartRepository.AddItemCartAsync(itemCart);
     }
+
+    public void RemoveItemCartAsync(int itemCartId)
+        => UnitOfWork.CartRepository.RemoveItemCart(itemCartId);
 }
 

@@ -1,6 +1,6 @@
 using BackendTest.Features.Cart;
 
-namespace BackendTest.Features.User;
+namespace BackendTest.Features.User.Entities;
 
 public class UserEntity
 {
@@ -10,4 +10,7 @@ public class UserEntity
     public string Name { get; set; }
 
     public CartEntity Cart { get; set; }
+
+    public ICollection<UserAddressEntity> Addresses { get; set; }
+    public ICollection<UserPaymentMethodEntity> PaymentMethods { get; set; }
 }

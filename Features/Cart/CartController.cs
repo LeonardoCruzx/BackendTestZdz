@@ -38,4 +38,12 @@ public class CartController : ControllerBase
 
         return Ok();
     }
+
+    [HttpDelete("{id}/[action]")]
+    public IActionResult RemoveItem(int id)
+    {
+        CartService.RemoveItemCartAsync(id);
+
+        return Ok();
+    }
 }

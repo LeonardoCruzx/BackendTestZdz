@@ -1,4 +1,5 @@
 using BackendTest.Features.Cart;
+using BackendTest.Features.User.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendTest.Features.User;
@@ -15,5 +16,15 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
             .HasOne(u => u.Cart)
             .WithOne(c => c.User)
             .HasForeignKey<CartEntity>(c => c.UserId);
+
+        builder
+            .HasMany(u => u.Addresses)
+            .WithOne(a => a.User)
+            .HasForeignKey(a => a.UserId);
+
+        builder
+            .HasMany(u => u.PaymentMethods)
+            .WithOne(p => p.User)
+            .HasForeignKey(p => p.UserId);
     }
 }

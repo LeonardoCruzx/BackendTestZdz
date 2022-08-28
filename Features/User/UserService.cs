@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using BackendTest.Features.Cart;
 using BackendTest.Features.Shared;
+using BackendTest.Features.User.Entities;
 using BackendTest.Features.User.Resources;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
