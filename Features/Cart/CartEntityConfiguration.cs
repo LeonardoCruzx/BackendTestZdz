@@ -1,11 +1,12 @@
 using BackendTest.Features.User;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BackendTest.Features.Cart;
 
 public class CartEntityConfiguration : IEntityTypeConfiguration<CartEntity>
 {
-    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<CartEntity> builder)
+    public void Configure(EntityTypeBuilder<CartEntity> builder)
     {
         builder.ToTable("Carts");
 

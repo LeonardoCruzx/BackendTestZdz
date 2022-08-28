@@ -11,7 +11,7 @@ public class BackendTestContext : DbContext
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<CartEntity> Carts { get; set; }
     public DbSet<ItemEntity> Items { get; set; }
-    public DbSet<ItemCartEntity> ItemCarts { get; set; }
+    public DbSet<ItemCartEntity> CartItems { get; set; }
 
     public BackendTestContext(DbContextOptions<BackendTestContext> options) : base(options)
     {
@@ -23,5 +23,7 @@ public class BackendTestContext : DbContext
         modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
         
         modelBuilder.ApplyConfiguration(new CartEntityConfiguration());
+
+        modelBuilder.ApplyConfiguration(new ItemEntityConfiguration());
     }
 }

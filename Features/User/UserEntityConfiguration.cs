@@ -1,12 +1,13 @@
 using BackendTest.Features.Cart;
 using BackendTest.Features.User.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BackendTest.Features.User;
 
 public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {
-    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<UserEntity> builder)
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         builder.ToTable("Users");
 

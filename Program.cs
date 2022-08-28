@@ -40,6 +40,7 @@ builder.Services.AddDbContext<BackendTestContext>(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICartService, CartService>();
 
