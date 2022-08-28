@@ -1,3 +1,4 @@
+using BackendTest.Features.Cart.Resources;
 using BackendTest.Features.Item;
 using BackendTest.Features.Shared;
 
@@ -5,7 +6,8 @@ namespace BackendTest.Features.Cart;
 
 public interface ICartService
 {
-    Task<IEnumerable<ItemEntity>> GetItemsByIdAsync(int cartId);
+    Task<IEnumerable<ItemCartEntity>> GetItemsByIdAsync(int cartId);
+    Task AddItemCartAsync(AddItemResource addItemResource);
 }
 
 public class CartService : ICartService
@@ -17,8 +19,24 @@ public class CartService : ICartService
         UnitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<ItemEntity>> GetItemsByIdAsync(int cartId)
+    public async Task<IEnumerable<ItemCartEntity>> GetItemsByIdAsync(int cartId)
         => await UnitOfWork.CartRepository.GetItemsByIdAsync(cartId);
-    
+
+    public async Task AddItemCartAsync(AddItemResource addItemResource)
+    {
+        var cart = await UnitOfWork.CartRepository.GetByIdAsync(addItemResource.CartId);
+
+        var item = await UnitOfWork.ItemRepository.GetByIdAsync(addItemResource.ItemId);
+
+        var itemCart = new ItemCartEntity
+        {
+            Cart = cart,
+            Item = item,
+            Quantity = addItemResource.Quantity,
+            Price = item.Price * addItemResource.Quantity
+        };
+
+        await UnitOfWork.CartRepository.AddItemCartAsync(itemCart);
+    }
 }
 

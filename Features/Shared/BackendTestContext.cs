@@ -1,4 +1,5 @@
 using BackendTest.Features.Cart;
+using BackendTest.Features.Item;
 using BackendTest.Features.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,8 @@ public class BackendTestContext : DbContext
 {
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<CartEntity> Carts { get; set; }
+    public DbSet<ItemEntity> Items { get; set; }
+    public DbSet<ItemCartEntity> ItemCarts { get; set; }
 
     public BackendTestContext(DbContextOptions<BackendTestContext> options) : base(options)
     {

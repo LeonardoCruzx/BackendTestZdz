@@ -8,7 +8,7 @@ public class CartEntity
     public int Id { get; set; }
     public int UserId { get; set; }
     public UserEntity User { get; set; }
-    public ICollection<ItemEntity> Items { get; set; }
+    public ICollection<ItemCartEntity> Items { get; set; }
 
     public CartEntity()
     {
