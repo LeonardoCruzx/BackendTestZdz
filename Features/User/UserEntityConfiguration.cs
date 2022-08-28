@@ -14,6 +14,6 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
         builder
             .HasOne(u => u.Cart)
             .WithOne(c => c.User)
-            .HasForeignKey<UserEntity>(x => x.CartId);
+            .HasForeignKey<CartEntity>(c => c.UserId);
     }
 }

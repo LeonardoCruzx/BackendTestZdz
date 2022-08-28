@@ -9,4 +9,13 @@ public class CartEntity
     public int UserId { get; set; }
     public UserEntity User { get; set; }
     public ICollection<ItemEntity> Items { get; set; }
+
+    public CartEntity()
+    {
+    }
+
+    public CartEntity(UserEntity user)
+    {
+        User = user;
+    }
 }

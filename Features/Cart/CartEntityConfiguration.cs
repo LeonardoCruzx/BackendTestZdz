@@ -1,7 +1,7 @@
-using BackendTest.Features.Cart;
+using BackendTest.Features.User;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackendTest.Features.User;
+namespace BackendTest.Features.Cart;
 
 public class CartEntityConfiguration : IEntityTypeConfiguration<CartEntity>
 {
@@ -10,11 +10,6 @@ public class CartEntityConfiguration : IEntityTypeConfiguration<CartEntity>
         builder.ToTable("Carts");
 
         builder.HasKey(x => x.Id);
-
-        builder
-            .HasOne(c => c.User)
-            .WithOne(u => u.Cart)
-            .HasForeignKey<CartEntity>(x => x.UserId);
 
         builder
             .HasMany(c => c.Items)

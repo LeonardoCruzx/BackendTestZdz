@@ -5,11 +5,12 @@ namespace BackendTest.Features.Shared;
 
 public interface IRepository<TEntity> where TEntity : class
 {
+    void Update(TEntity entity);
     Task AddAsync(TEntity entity);
     Task AddRangeAsync(IEnumerable<TEntity> entities);
     IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
     Task<IEnumerable<TEntity>> GetAllAsync();
-    ValueTask<TEntity> GetByIdAsync(int id);
+    Task<TEntity> GetByIdAsync(int id);
     void Remove(TEntity entity);
     void RemoveRange(IEnumerable<TEntity> entities);
     Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
@@ -22,6 +23,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public Repository(DbContext context)
     {
         this.Context = context;
+    }
+
+    public void Update(TEntity entity)
+    {
+        Context.Update(entity);
     }
     public async Task AddAsync(TEntity entity)
     {
@@ -43,9 +49,9 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         return await Context.Set<TEntity>().ToListAsync();
     }
 
-    public ValueTask<TEntity> GetByIdAsync(int id)
+    public async Task<TEntity> GetByIdAsync(int id)
     {
-        return Context.Set<TEntity>().FindAsync(id);
+        return await Context.Set<TEntity>().FindAsync(id);
     }
 
     public void Remove(TEntity entity)

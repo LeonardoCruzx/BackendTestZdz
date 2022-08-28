@@ -31,7 +31,7 @@ public class UserController : ControllerBase
     }
     
     [AllowAnonymous]
-    [HttpPost("SignUp")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> SignUp(SignUpResource signUpResource)
     {
         var validationResult = SignUpResourceValidator.Validate(signUpResource);
@@ -49,8 +49,8 @@ public class UserController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("Login")]
-    public IActionResult Login(LoginResource loginResource)
+    [HttpPost("[action]")]
+    public async Task<IActionResult> Login(LoginResource loginResource)
     {
         var validationResult = LoginResourceValidator.Validate(loginResource);
 
@@ -59,11 +59,19 @@ public class UserController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var token = UserService.Authenticate(loginResource);
+        var token = await UserService.Authenticate(loginResource);
 
         if (token is null)
             return BadRequest(new { message = "Username or password is incorrect" });
 
         return Ok(token);
+    }
+
+    [HttpGet("{id}/[action]")]
+    public async Task<IActionResult> Cart(int id)
+    {
+        var user = await UserService.GetByIdWithCart(id);
+
+        return Ok(user.Cart);
     }
 }

@@ -5,7 +5,7 @@ namespace BackendTest.Features.Cart;
 
 public interface ICartService
 {
-    Task<IEnumerable<ItemEntity>> GetItemsAsync(int cartId);
+    Task<IEnumerable<ItemEntity>> GetItemsByIdAsync(int cartId);
 }
 
 public class CartService : ICartService
@@ -17,8 +17,8 @@ public class CartService : ICartService
         UnitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<ItemEntity>> GetItemsAsync(int cartId)
-        => await UnitOfWork.CartRepository.GetItemsAsync(cartId);
+    public async Task<IEnumerable<ItemEntity>> GetItemsByIdAsync(int cartId)
+        => await UnitOfWork.CartRepository.GetItemsByIdAsync(cartId);
     
 }
 

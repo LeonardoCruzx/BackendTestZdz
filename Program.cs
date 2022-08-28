@@ -1,3 +1,4 @@
+using BackendTest.Features.Cart;
 using BackendTest.Features.Shared;
 using BackendTest.Features.User;
 using BackendTest.Features.User.Resources;
@@ -10,7 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddCors();
-builder.Services.AddControllers();
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -34,6 +41,7 @@ builder.Services.AddDbContext<BackendTestContext>(options =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 var app = builder.Build();
 

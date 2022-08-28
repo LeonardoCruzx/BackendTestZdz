@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BackendTest.Features.Cart;
 using BackendTest.Features.Shared;
 using BackendTest.Features.User.Resources;
 using Microsoft.Extensions.Options;
@@ -13,6 +14,7 @@ public interface IUserService
     Task<TokenResource> SignUp(UserEntity user);
     Task<TokenResource> Authenticate(LoginResource model);
     Task<UserEntity> GetById(int id);
+    Task<UserEntity> GetByIdWithCart(int id);
 }
 
 public class UserService : IUserService
@@ -30,9 +32,14 @@ public class UserService : IUserService
     {
         user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-        //await UnitOfWork
+        var cart = new CartEntity(user);
+
+        user.Cart = cart;
 
         await UnitOfWork.UserRepository.AddAsync(user);
+
+        await UnitOfWork.CartRepository.AddAsync(cart);
+
         await UnitOfWork.CommitAsync();
 
         return new TokenResource(GenerateJwtToken(user));
@@ -50,6 +57,9 @@ public class UserService : IUserService
 
     public async Task<UserEntity> GetById(int id)
         => await UnitOfWork.UserRepository.GetByIdAsync(id);
+
+    public async Task<UserEntity> GetByIdWithCart(int id)
+        => await UnitOfWork.UserRepository.GetByIdWithCartAsync(id);
 
     private string GenerateJwtToken(UserEntity user)
         {

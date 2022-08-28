@@ -2,6 +2,7 @@
 using BackendTest.Features.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendTest.Migrations
 {
     [DbContext(typeof(BackendTestContext))]
-    partial class BackendTestContextModelSnapshot : ModelSnapshot
+    [Migration("20220827233439_FirstMigration")]
+    partial class FirstMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
